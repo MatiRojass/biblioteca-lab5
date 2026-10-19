@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="layout2.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:h="jakarta.faces.html"
+                xmlns:f="jakarta.faces.core">
+
+    <ui:define name="contenido-principal">
+
+        <h2 style="font-size: 35px; font-weight: bold; padding-bottom: 20px">Agregar Nuevo Libro</h2>
+        <div class="contenedor-agregar-clientes" style="margin-bottom: 40px;">
+            <h:form id="add-libros" style="display: flex; flex-direction: column; gap: 15px; border: 1px solid #000; padding: 15px; width: 100%;">
+                
+                <h:messages globalOnly="false" style="color: red; font-weight: bold;" />
+
+                <h:outputLabel for="titulo" value="Título del Libro" />
+                <h:inputText id="titulo" value="#{libroBean.libro.titulo}" required="true" requiredMessage="El título es obligatorio" />
+
+                <div style="display: flex; gap: 20px;">
+                    <div style="flex: 1; display: flex; flex-direction: column;">
+                        <h:outputLabel for="year" value="Año de Publicación" />
+                        <h:inputText id="year" value="#{libroBean.libro.year}" required="true" />
+                    </div>
+                    <div style="flex: 1; display: flex; flex-direction: column;">
+                        <h:outputLabel for="edicion" value="Edición (Nro)" />
+                        <h:inputText id="edicion" value="#{libroBean.libro.edicion}" required="true" />
+                    </div>
+                    <div style="flex: 1; display: flex; flex-direction: column;">
+                        <h:outputLabel for="disponibles" value="Stock Disponible" />
+                        <h:inputText id="disponibles" value="#{libroBean.libro.disponibles}" required="true" />
+                    </div>
+                </div>
+
+                <h:outputLabel for="editorial" value="Editorial" />
+                <h:inputText id="editorial" value="#{libroBean.libro.editorial}" required="true" />
+
+                <h:outputLabel for="descripcion" value="Descripción / Sinopsis" />
+                <h:inputTextarea id="descripcion" value="#{libroBean.libro.descripcion}" rows="4" style="border: 1px solid #333; border-radius: 6px; padding: 10px;" />
+
+                <div style="display: flex; gap: 20px;">
+                    
+                    <div style="flex: 1; display: flex; flex-direction: column;">
+                        <h:outputLabel for="cat_id" value="Categoría" />
+                        <h:selectOneMenu id="cat_id" value="#{libroBean.libro.categoriasId}" required="true" requiredMessage="Seleccione una categoría" style="padding: 8px; border-radius: 4px; border: 1px solid #333;">
+                            <f:selectItem itemLabel="-- Seleccionar Categoría --" itemValue="#{null}" noSelectionOption="true" />
+                            <f:selectItems value="#{libroBean.categorias}" var="cat" itemValue="#{cat.id}" itemLabel="#{cat.nombre}" />
+                        </h:selectOneMenu>
+                    </div>
+
+                    <div style="flex: 1; display: flex; flex-direction: column;">
+                        <h:outputLabel for="aut_id" value="Autor" />
+                        <h:selectOneMenu id="aut_id" value="#{libroBean.libro.autoresId}" required="true" requiredMessage="Seleccione un autor" style="padding: 8px; border-radius: 4px; border: 1px solid #333;">
+                            <f:selectItem itemLabel="-- Seleccionar Autor --" itemValue="#{null}" noSelectionOption="true" />
+                            <f:selectItems value="#{libroBean.autores}" var="aut" itemValue="#{aut.id}" itemLabel="#{aut.nombres}" />
+                        </h:selectOneMenu>
+                    </div>
+
+                </div>
+
+                <h:commandButton value="Guardar Libro" action="#{libroBean.guardar}" style="background-color: #2563eb; color: white; padding: 10px; cursor: pointer; border-radius: 6px; font-weight: bold; margin-top: 10px;">
+                    <f:ajax execute="@form" render="@form :panelTablaLibros" />
+                </h:commandButton>
+            </h:form>
+        </div>
+
+
+        <section class="contenedor-tabla-libros">
+            <h:panelGroup id="panelTablaLibros" layout="block">
+                <table class="tabla">
+                    <thead>
+                        <tr>
+                            <th>TÍTULO</th>
+                            <th>AÑO</th>
+                            <th>EDITORIAL</th>
+                            <th>STOCK</th>
+                            <th>ACCIONES</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ui:repeat value="#{libroBean.libros}" var="libroItem">
+                            <tr>
+                                <td>#{libroItem.titulo}</td>
+                                <td>#{libroItem.year}</td>
+                                <td>#{libroItem.editorial}</td>
+                                <td>#{libroItem.disponibles} un.</td>
+                                <td style="display: flex; gap: 10px;">
+                                    <h:form>
+                                        <h:link outcome="descripcion-libros" value="Ver Detalle" style="color: #007BFF; font-weight: bold; margin-right: 15px;" />
+                                        
+                                        <h:commandLink value="Editar" action="#{libroBean.seleccionar(libroItem)}" style="color: #28a745; margin-right: 15px;">
+                                            <f:ajax render=":add-libros" />
+                                        </h:commandLink>
+                                        
+                                        <h:commandLink value="Eliminar" action="#{libroBean.eliminar(libroItem.id)}" style="color: red;" onclick="return confirm('¿Eliminar libro?');">
+                                            <f:ajax render=":panelTablaLibros" />
+                                        </h:commandLink>
+                                    </h:form>
+                                </td>
+                            </tr>
+                        </ui:repeat>
+                    </tbody>
+                </table>
+            </h:panelGroup>
+        </section>
+
+    </ui:define>
+
+    <ui:define name="aside">
+        <aside class="contenedor-filtrado-categoria">
+            <h3>Filtrar Libros por Categorías</h3>
+            
+            <details open="open">
+                <summary>Género</summary>
+                <h:form>
+                    <label><h:selectBooleanCheckbox /> Realismo Mágico</label>
+                    <label><h:selectBooleanCheckbox /> Cuento</label>
+                    <label><h:selectBooleanCheckbox /> Fantasía</label>
+                    <label><h:selectBooleanCheckbox /> Novela</label>
+                </h:form>
+            </details>
+        </aside>
+    </ui:define>
+
+</ui:composition>

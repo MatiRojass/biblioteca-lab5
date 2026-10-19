@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="layout2.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:h="jakarta.faces.html"
+                xmlns:f="jakarta.faces.core">
+
+    <ui:define name="contenido-principal">
+
+        <h:outputScript library="js" name="codigo.js" target="head" />
+
+        <h2 style="font-size: 35px"><b>Clientes</b></h2>
+
+        <h:panelGroup id="panelCards"> 
+            <div class="cards-clientes">
+                <ui:repeat value="#{socioBean.listaSocios}" var="socioItem">
+
+                    <article class="card-libro">
+                        <h3 style="margin-top: 10px; color: #2563eb;">
+                            #{socioItem.apellido}, #{socioItem.nombres}
+                        </h3>
+                        <hr style="margin: 10px 0; border: 0.5px solid #eee;" />
+
+                        <p><b>DNI:</b> #{socioItem.dni}</p>
+                        <p><b>Dirección:</b> #{socioItem.direccion}</p>
+                        <p><b>Teléfono:</b> #{socioItem.telefono}</p>
+
+                        <div style="margin-top: 15px;">
+                            <h:form style="display: flex; justify-content: space-evenly; width: 100%;">
+                                <h:commandButton value="Editar" action="#{socioBean.seleccionar(socioItem)}" styleClass="btn-lib">
+                                    <f:ajax render=":add-socios" /> 
+                                </h:commandButton>
+                                
+                                <h:commandButton value="Eliminar" action="#{socioBean.eliminar(socioItem.id)}" styleClass="btn-eliminar" onclick="return confirm('¿Seguro que deseas eliminar este socio?');">
+                                    <f:ajax render=":panelCards" /> 
+                                </h:commandButton>
+                            </h:form>
+                        </div>
+                    </article>
+
+                </ui:repeat>
+            </div>
+        </h:panelGroup>
+
+        <h2 style="font-size: 35px; font-weight: bold; padding-bottom: 20px ">Agregate como Cliente</h2>
+        <div class="contenedor-agregar-clientes">
+
+            <h:form id="add-socios">
+                
+                <h:messages globalOnly="false" style="color: red; font-weight: bold;" />
+
+                <h:outputLabel for="nombres" value="Nombres" />
+                <h:inputText id="nombres" value="#{socioBean.socio.nombres}" required="true" requiredMessage="El nombre es obligatorio" />
+
+                <h:outputLabel for="apellido" value="Apellido" />
+                <h:inputText id="apellido" value="#{socioBean.socio.apellido}" required="true" requiredMessage="El apellido es obligatorio" />
+
+                <h:outputLabel for="dni" value="DNI" />
+                <h:inputText id="dni" value="#{socioBean.socio.dni}" required="true" requiredMessage="El DNI es obligatorio" converterMessage="El DNI debe contener solo números" />
+
+                <h:outputLabel for="direccion" value="Dirección" />
+                <h:inputText id="direccion" value="#{socioBean.socio.direccion}" required="true" requiredMessage="La dirección es obligatoria" />
+
+                <h:outputLabel for="telefono" value="Teléfono" />
+                <h:inputText id="telefono" value="#{socioBean.socio.telefono}" required="true" requiredMessage="El teléfono es obligatorio" />
+                
+                <h:outputLabel for="password" value="Contraseña de Acceso" />
+                <h:inputText id="password" value="#{socioBean.socio.password}" required="true" requiredMessage="La contraseña es obligatoria" />
+
+                <h:commandButton value="Guardar Socio" action="#{socioBean.guardar}" style="background-color: #2563eb; color: white; padding: 10px; cursor: pointer;">
+                    <f:ajax execute="@form" render="@form :panelCards" />
+                </h:commandButton>
+
+            </h:form>
+
+        </div>
+
+    </ui:define>
+
+    <ui:define name="aside">
+    </ui:define>
+
+</ui:composition>

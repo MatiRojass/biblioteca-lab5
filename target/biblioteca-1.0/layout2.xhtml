@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit this template
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="jakarta.faces.passthrough"
+      xmlns:f="jakarta.faces.core">
+    
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet library="css" name="style.css"/>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <title>Biblioteca Almafuerte</title>
+    </h:head>
+    
+    <h:body>
+        <header class="contenedor-header">
+            <h1 class="titulo">BIBLIOTECA  ALMAFUERTE</h1>
+
+            
+            <h:graphicImage library="images" name="logo.webp" alt="Logo de biblioteca" styleClass="logo" />
+
+            <nav class="navegacion">
+                <ul style="display: flex; align-items: center; gap: 15px; list-style: none;">
+                    <li><h:link outcome="index" value="Inicio" /></li>
+                    <li><h:link outcome="socios" value="Clientes" /></li>
+                    
+                    
+                    <h:panelGroup rendered="#{loginSocioBean.logueado}">
+                        <li><h:link outcome="carrito" value="Prestamos" /></li>
+                    </h:panelGroup>
+                    
+
+                    <h:panelGroup rendered="#{loginBean.logueado}">
+                        <li>
+                            <h:link outcome="libros" value="Libros ABM" style="color: #4ade80; font-weight: bold;" />
+                        </li>
+                        <li>
+                            <h:link outcome="ver-consultas" value="Consultas" style="color: #4ade80; font-weight: bold;" />
+                        </li>
+                        <li>
+                            <h:link outcome="devoluciones" value="Devoluciones" style="color: #4ade80; font-weight: bold;" />
+                        </li>
+                    </h:panelGroup>
+
+                    <h:panelGroup rendered="#{not loginBean.logueado}">
+                        <li>
+                            <h:link outcome="login" value="Log Admin" style="color: #fbbf24; font-weight: bold; margin-left: 20px;" />
+                        </li>
+                    </h:panelGroup>
+
+                    <h:panelGroup rendered="#{loginBean.logueado}">
+                        <li style="margin-left: 20px;">
+                            <h:form style="margin: 0; padding: 0;">
+                                <h:commandLink action="#{loginBean.logout}" value="Cerrar Sesión" style="color: #ef4444; font-weight: bold;" />
+                            </h:form>
+                        </li>
+                    </h:panelGroup>
+                    
+                    <h:panelGroup rendered="#{loginSocioBean.logueado}">
+                        <li style="margin-left: 20px;">
+                            <h:form style="margin: 0; padding: 0;">
+                                <h:commandLink action="#{loginSocioBean.logout}" value="Cerrar Sesión" style="color: #ef4444; font-weight: bold;" />
+                            </h:form>
+                        </li>
+                    </h:panelGroup>
+                </ul>
+            </nav>
+
+        </header>
+        
+        <main class="contenedor-principal">
+    <section class="columna-libros" id="principal">
+        <ui:insert name="contenido-principal">
+            
+        </ui:insert>
+    </section>
+    
+    <aside class="columna-aside">
+        <ui:insert name="aside">
+            
+        </ui:insert>
+    </aside>
+</main>
+        
+        <footer class="bg-gray-800 text-white p-8 mt-10">
+            <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-start gap-8">
+
+                <div class="flex-1">
+                    <h3 class="text-xl font-bold mb-4 border-b border-gray-600 pb-2">Contacto</h3>
+                    <div class="flex flex-col gap-2 text-gray-300">
+                        <p>
+                            <span class="font-semibold text-white">Dirección:</span> Av. Belgrano Sur 1912, Santiago del Estero
+                        </p>
+                        <p>
+                            <span class="font-semibold text-white">Teléfono:</span> +54 385 123-4567
+                        </p>
+                    </div>
+                </div>
+
+                <div class="flex-1 w-full bg-gray-700 p-4 rounded-lg shadow-md">
+                    <h3 class="text-lg font-bold mb-2 text-white">Envíanos tu consulta</h3>
+                    
+                    <!-- Ejercicio 5 TP2 -->
+                    <h:form id="formulario" styleClass="flex flex-col gap-2">
+                        
+                        <h:outputText value="#{consultaBean.mensajeExito}" rendered="#{not empty consultaBean.mensajeExito}" style="color: #4ade80; font-weight: bold; text-align: center;" />
+
+                        <div>
+                            <h:outputLabel for="nombre" value="Nombre" styleClass="sr-only" />
+                            <h:inputText id="nombre" value="#{consultaBean.nuevaConsulta.nombreCompleto}" p:placeholder="Tu Nombre Completo" required="true" requiredMessage="El nombre es obligatorio" styleClass="w-full p-2 rounded bg-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                        </div>
+                        
+                        <div>
+                            <h:outputLabel for="email" value="Email" styleClass="sr-only" />
+                            <h:inputText id="email" value="#{consultaBean.nuevaConsulta.email}" p:placeholder="Tu Email" required="true" requiredMessage="El email es obligatorio" styleClass="w-full p-2 rounded bg-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                        </div>
+                        
+                        <div>
+                            <h:outputLabel for="mensaje" value="Consulta" styleClass="sr-only" />
+                            <h:inputTextarea id="mensaje" value="#{consultaBean.nuevaConsulta.consulta}" p:placeholder="Escribe tu consulta aquí..." rows="3" required="true" requiredMessage="Debes escribir un mensaje" styleClass="w-full p-2 rounded bg-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                        </div>
+                        
+                        <h:commandButton value="Enviar" action="#{consultaBean.enviarConsulta}" styleClass="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded transition-colors duration-300" style="cursor: pointer;">
+                            <f:ajax execute="@form" render="@form" />
+                        </h:commandButton>
+                    </h:form>
+                </div>
+
+            </div>
+        </footer>
+        
+        
+    </h:body>
+</html>

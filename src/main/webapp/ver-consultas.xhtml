@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="layout2.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:h="jakarta.faces.html"
+                xmlns:f="jakarta.faces.core">
+
+    <ui:define name="contenido-principal">
+        <h2 style="font-size: 35px; font-weight: bold; margin-bottom: 20px;">Bandeja de Consultas Recibidas</h2>
+
+        <section class="contenedor-tabla-libros">
+            <h:panelGroup id="panelConsultas" layout="block">
+                
+                <h:outputText value="No hay consultas pendientes." rendered="#{empty consultaBean.listaConsultas}" style="font-size: 18px; color: gray;" />
+
+                <table class="tabla" style="#{empty consultaBean.listaConsultas ? 'display:none;' : ''}">
+                    <thead>
+                        <tr>
+                            <th>NRO</th>
+                            <th>NOMBRE</th>
+                            <th>EMAIL</th>
+                            <th>MENSAJE</th>
+                            <th>ACCIONES</th> </tr>
+                    </thead>
+                    <tbody>
+                        <ui:repeat value="#{consultaBean.listaConsultas}" var="cons">
+                            <tr>
+                                <td>##{cons.id}</td>
+                                <td style="font-weight: bold;">#{cons.nombreCompleto}</td>
+                                <td>#{cons.email}</td>
+                                <td style="font-style: italic;">"#{cons.consulta}"</td>
+                                <td>
+                                    <h:form>
+                                        <h:commandLink value="Eliminar" action="#{consultaBean.eliminarConsulta(cons.id)}" style="color: red; font-weight: bold; text-decoration: none;" onclick="return confirm('¿Seguro que querés marcar esta consulta como resuelta y eliminarla?');">
+                                            <f:ajax render=":panelConsultas" />
+                                        </h:commandLink>
+                                    </h:form>
+                                </td>
+                            </tr>
+                        </ui:repeat>
+                    </tbody>
+                </table>
+            </h:panelGroup>
+        </section>
+    </ui:define>
+
+    <ui:define name="aside"></ui:define>
+
+</ui:composition>

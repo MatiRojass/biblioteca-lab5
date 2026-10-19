@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="layout2.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:h="jakarta.faces.html"
+                xmlns:f="jakarta.faces.core"
+                xmlns:p="jakarta.faces.passthrough">
+
+    <ui:define name="contenido-principal">
+        <div style="padding: 20px; min-height: 60vh;">
+            <h2 style="font-size: 35px; font-weight: bold; margin-bottom: 20px;">Gestión de Devoluciones</h2>
+
+            <h:messages globalOnly="true" style="font-weight: bold; margin-bottom: 15px; list-style: none; font-size: 18px; padding: 15px; background-color: #374151; color: white; border-radius: 5px;" />
+
+            <h:form id="form-busqueda" style="margin-bottom: 30px; display: flex; gap: 10px; align-items: center;">
+                <h:outputLabel value="Nro. de Préstamo:" style="font-weight: bold; font-size: 18px;" />
+                <h:inputText value="#{prestamoBean.prestamoIdBusqueda}" p:type="number" p:placeholder="Ej: 1" style="padding: 10px; border-radius: 4px; border: 1px solid #ccc; width: 150px;" required="true" requiredMessage="Ingrese un ID" />
+                <h:commandButton value="Buscar" action="#{prestamoBean.buscarTicket}" style="background-color: #2563eb; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;" />
+            </h:form>
+
+            <hr style="border-color: #4b5563; margin-bottom: 20px;" />
+
+            <h:panelGroup id="panel-devolucion" layout="block" rendered="#{prestamoBean.prestamoEncontrado != null}">
+                <div style="background-color: #1f2937; padding: 20px; border-radius: 8px; color: white;">
+                    <h3 style="color: #fbbf24; font-size: 24px; margin-bottom: 15px;">Detalles del Préstamo # #{prestamoBean.prestamoEncontrado.id}</h3>
+                    
+                    <p style="font-size: 18px;"><b>Socio:</b> #{prestamoBean.prestamoEncontrado.socio.nombres} #{prestamoBean.prestamoEncontrado.socio.apellido} (DNI: #{prestamoBean.prestamoEncontrado.socio.dni})</p>
+                    <p style="font-size: 18px;"><b>Fecha de Retiro:</b> #{prestamoBean.prestamoEncontrado.fecha}</p>
+                    
+                    <p style="font-size: 18px;"><b>Fecha de Retiro:</b> #{prestamoBean.prestamoEncontrado.fecha}</p>
+                    
+                    <div style="margin-top: 15px; margin-bottom: 15px;">
+                        <h:panelGroup rendered="#{prestamoBean.multaEstimada > 0}">
+                            <p style="font-size: 20px; color: #ef4444; font-weight: bold; background-color: #fee2e2; padding: 10px; border-radius: 5px; display: inline-block;">
+                                ⚠️ Multa por atraso a cobrar: $#{prestamoBean.multaEstimada}
+                            </p>
+                        </h:panelGroup>
+                        
+                        <h:panelGroup rendered="#{prestamoBean.multaEstimada le 0}">
+                            <p style="font-size: 18px; color: #10b981; font-weight: bold;">
+                                ✅ Préstamo en término (Sin multa)
+                            </p>
+                        </h:panelGroup>
+                    </div>
+                    
+                    <h4 style="margin-top: 20px; margin-bottom: 10px; font-size: 20px; text-decoration: underline;">Libros a devolver:</h4>
+                    <ul style="font-size: 18px; margin-bottom: 20px; padding-left: 20px;">
+                        <ui:repeat value="#{prestamoBean.prestamoEncontrado.libros}" var="lib">
+                            <li>#{lib.titulo}</li>
+                        </ui:repeat>
+                    </ul>
+
+                    <h:form>
+                        <h:commandButton value="Registrar Devolución Física" action="#{prestamoBean.registrarDevolucion}" style="background-color: #10b981; color: white; padding: 15px 30px; border: none; border-radius: 5px; font-weight: bold; font-size: 18px; cursor: pointer; width: 100%;" onclick="return confirm('¿Confirmar que el socio devolvió todos los libros en mostrador?');" />
+                    </h:form>
+                </div>
+            </h:panelGroup>
+
+        </div>
+    </ui:define>
+
+    <ui:define name="aside"></ui:define>
+
+</ui:composition>

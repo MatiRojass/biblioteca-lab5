@@ -1,0 +1,484 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this template
+*/
+/* 
+    Created on : 30 mar 2026, 9:56:49 a. m.
+    Author     : Carlo_s Paz Cast
+*/
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+/*ESTILO DE HEADER*/
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.contenedor-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    background-color: #f8f9fa;
+    overflow: hidden; /*no muestra scroll en la animacion*/
+}
+
+.titulo {
+    font-family: 'Oswald', sans-serif;
+    margin: 0;
+    flex: 1;
+    /*Animacion de titulo*/
+    animation: recorridoTitulo 5s ease-in-out forwards;
+    font-size: 50px;
+}
+
+.logo {
+    height: 150px;
+    width: 150px;
+    border-radius: 50%; /*logo redondo*/
+    object-fit: cover; /*no se deforma la imagen*/
+}
+
+.navegacion {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.navegacion ul {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-item {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+
+
+@keyframes recorridoTitulo {
+    /* Ingresa por izquierda y va hacia la derecha */
+    0% {
+        transform: translateX(-100vw); /* Arranca  a la izquierda por fuera*/
+        opacity: 0; /* Totalmente transparente */
+    }
+    5% {
+        opacity: 1; /* Se hace visible al entrar */
+    }
+    30% {
+        transform: translateX(100vw); /* Se va  a la derecha por fuera */
+        opacity: 1;
+    }
+    31% {
+        opacity: 0; /* Desaparece al salir */
+    }
+
+    /* Ingresa por derecha y va hacia la izquierda */
+    35% {
+        transform: translateX(100vw); /* Se prepara en la derecha */
+        opacity: 0;
+    }
+    40% {
+        opacity: 1; /* Se hace visible de nuevo */
+    }
+    65% {
+        transform: translateX(-100vw); /* Viaja hasta la izquierda */
+        opacity: 1;
+    }
+    66% {
+        opacity: 0; /* Desaparece al salir por izquierda */
+    }
+
+    /*  Aparece finalmente en su lugar a la izquierda */
+    75% {
+        transform: translateX(-50px); /* Sale un poco a la izquierda */
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0); /* Vuelve a su posición original */
+        opacity: 1;
+    }
+}
+
+/*ESTILO DE BODY/MAIN */
+/*Contenedor de columna de cards libros*/
+.contenedor-principal{
+    display: flex;
+    gap: 40px; /*separa las dos columnas*/
+    padding: 40px 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.columna-libros{
+    flex: 3;
+}
+
+
+
+.contenedor-cards{
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap; /*si no cabe en fila, baja a la siguiente*/
+}
+
+.card-libro{
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    width: 350px;
+    text-align: center;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    font-family: bebas neue;
+    font-size: 20px;
+}
+
+.btn-lib{
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    padding: 5px 5px;
+    border: 1px solid royalblue;
+    border-radius: 8px;
+    justify-content: center;
+}
+
+
+.portada-libro {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+/*contenedor de columna aside redes y buscador */
+
+.columna-aside{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    background-color: #f3f4f6;
+    padding: 24px;
+    border-radius: 8px;
+}
+
+
+.iconos-redes{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.btn-red {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Separa un poquito el emoji del texto */
+    text-decoration: none; /* Quitamos la línea del enlace */
+    color: #333; /* Texto oscuro por defecto */
+    padding: 10px 15px; /* Espacio interior para que parezca un botón */
+    border-radius: 8px; /* Bordes redondeados */
+    background-color: #e5e7eb; /* Fondo gris claro */
+    font-weight: bold;
+    justify-content: center;
+
+    /* Esta es la magia para la animación del hover */
+    transition: all 0.3s ease;
+}
+
+.btn-red.facebook:hover {
+    background-color: #1877F2; /* Color oficial de Facebook */
+    color: white; /* Cambiamos el texto a blanco para que contraste */
+}
+
+.btn-red.instagram:hover {
+    background-color: #E4405F; /* Color oficial de Instagram */
+    color: white;
+}
+
+.btn-red.youtube:hover {
+    background-color: #FF0000; /* Color oficial de YouTube */
+    color: white;
+}
+
+.buscador-box{
+    display: flex;
+    flex-direction: column;
+    gap: 10px
+}
+
+.buscador-box input{
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.buscador-box button{
+    width: 100%;
+    padding: 10px;
+    background-color: #2563eb; /* Azul tipo botón primario */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.contenedor-btn-form{
+    display: flex;
+    justify-content: end;
+    padding: 5px 5px;
+    gap: 20px;
+}
+
+.btn-form{
+    border: 1px #1877F2 solid;
+    border-radius: 8px;
+    padding: 2px 2px;
+    margin-right: 200px;
+    background-color: #9999ff;
+}
+
+/*ESTILOS DE PAGINA DE LIBROS*/
+
+.contenedor-tabla-libros{
+    flex: 3;
+}
+
+.contenedor-filtrado-categoria{
+    flex: 1;
+}
+
+.tabla{
+    width: 100%;
+    border-collapse: collapse;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    background-color: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.tabla th{
+    background-color: #f4f4f4;
+    color: #333333;
+    text-align: left;
+    padding: 15px;
+    font-weight: bold;
+    border-bottom: 2px solid #dddddd;
+}
+
+.tabla td{
+    padding: 12px 15px;
+    border-bottom: 1px solid #eeeeee;
+    color: #555555;
+}
+
+.tabla tbody tr:hover {
+    background-color: aliceblue;
+}
+
+.tabla a{
+    font-weight: bold;
+    text-decoration: none;
+    color: #007BFF;
+}
+
+.contenedor-filtrado-categoria{
+    background-color: aliceblue;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #cce0ff;
+    height: fit-content; /*altura se adapta a los elementos de dentro nomas*/
+}
+
+.contenedor-filtrado-categoria h3{
+    margin-top: 0;
+    color: #003366;
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+.contenedor-filtrado-categoria details label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 10px;
+  color: #555555;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+
+/*ESTILOS PAGINA DE CLIENTES*/
+.cards-clientes{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    justify-items: center;
+    margin: 20px;
+    gap: 100px;
+}
+
+/*ESTILOS PAGINA VER/DESCRIPCION LIBRO*/
+
+.descripcion-libro{
+    display: flex;
+}
+
+.contenedor-img-desc-libro{
+flex: 2;
+}
+
+.contenedor-info-desc-libro{
+    flex: 1;
+    flex-direction: column;
+}
+
+.contenedor-img-desc-libro img{
+    width: 70%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.contenedor-info-desc-libro p{
+    margin-bottom: 100px;
+}
+
+/*Ejercicio 2 TP2-Carrusel*/
+.carrusel-container{
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    background-color: aliceblue;
+    align-items: center;
+    gap: 10px;
+}
+
+.libros-carrusel{
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    
+}
+
+.ventana{
+    width: 250px;
+    overflow: hidden;
+}
+
+.card-carrusel{
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    width: 250px;
+    text-align: center;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    font-family: bebas neue;
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.portada-libro-carrusel{
+    height: 300px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.btn-carr{
+    border: 2px solid #2563eb; 
+    height: 80px;
+    width: 30px;
+}
+
+/*Ejercicio 3 TP2*/
+
+.ocultar{
+    display: none;
+}
+
+/*Ejercicio 6 TP2*/
+.contenedor-agregar-clientes{
+    display: flex;
+    gap: 20px;
+}
+
+/* Formulario */
+#add-socios {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    border: 1px solid #ddd; 
+    border-radius: 8px; 
+    padding: 20px;
+    background-color: #f9fafb; 
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05); 
+    width: 100%;
+    max-width: 400px; 
+}
+
+/* Estilos para los inputs del formulario */
+#add-socios input[type="text"] {
+    padding: 10px 15px;
+    border: 1px solid #ccc; 
+    border-radius: 4px;
+    font-size: 15px;
+    box-sizing: border-box; 
+}
+
+
+#add-socios button {
+    margin-top: 10px;
+    padding: 12px;
+    background-color: #2563eb;
+    color: white;
+    border-radius: 6px;
+    font-size: 15px; 
+    font-weight: bold;
+    cursor: pointer;
+    
+}
+
+
+
+/*contendor donde agregamos las cards*/
+#contenedorVacio-clientes {
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 20px; 
+    align-content: flex-start; 
+    flex: 1; 
+}
+
+/*Ejercicio 7*/
+/*estilos Boton de eliminar*/
+/*Ejercicio 7*/
+/*estilos Boton de eliminar*/
+.btn-eliminar {
+    color: red;
+    background-color: transparent;
+    border: 1px solid red;
+    border-radius: 8px;
+    padding: 5px 15px; /* Un poco de padding horizontal para que quede rectangular */
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Aprovechamos para ajustar un poquito el de editar para que hagan juego perfecto */
+.btn-lib {
+    background-color: transparent;
+    color: royalblue;
+    border: 1px solid royalblue;
+    border-radius: 8px;
+    padding: 5px 15px;
+    font-weight: bold;
+    cursor: pointer;
+}

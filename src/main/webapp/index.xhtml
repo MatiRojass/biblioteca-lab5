@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="layout2.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:h="jakarta.faces.html"
+                xmlns:f="jakarta.faces.core"
+                xmlns:p="jakarta.faces.passthrough">
+
+    <ui:define name="contenido-principal">
+        
+        <h:outputScript library="js" name="codigo.js" target="head" />
+
+        <noscript>
+            <div>
+                <strong>IMPORTANTE</strong>Para utilizar todas las funcionalidades de la pagina, por favor ACTIVE JAVASCRIPT
+            </div> 
+        </noscript>
+        
+        <div class="contenedor-btn-form">
+            <p>¿Tiene alguna consulta?</p>
+            <a href="#formulario" class="btn-form">Contactanos</a>
+        </div> 
+
+        <h2 style="font-size: 35px"><b>Libros mas Solicitados</b></h2>
+        
+        <h:panelGroup id="panel-resultados" layout="block" styleClass="contenedor-cards">
+            
+            <h:outputText value="No se encontraron libros." rendered="#{empty indexBean.librosMostrados}" style="font-size: 20px; color: red;" />
+
+            <ui:repeat value="#{indexBean.librosMostrados}" var="libro">
+                <article class="card-libro">
+                    <h:graphicImage library="images" name="libro2.webp" alt="portada" styleClass="portada-libro"/>
+                    <h3 style="margin-top: 10px;">#{libro.titulo}</h3>
+                    <p style="font-size: 16px;">Stock: #{libro.disponibles} un.</p>
+                    
+                    <h:link outcome="descripcion-libros" value="Ver Libro" styleClass="btn-lib" style="margin-top: 10px;">
+                        <f:param name="idLibro" value="#{libro.id}" />
+                    </h:link>
+
+                    
+                        <h:form style="margin-top: 10px;">
+                        <h:commandButton value="Añadir a Reserva" action="#{prestamoBean.agregarAlCarrito(libro)}" style="width: 100%; background-color: #fbbf24; color: black; font-weight: bold; padding: 8px; border: none; border-radius: 4px; cursor: pointer;" />
+                    </h:form>
+                    
+
+                </article>
+            </ui:repeat>
+
+        </h:panelGroup>
+        </ui:define>
+
+    <ui:define name="aside">
+
+        <h:form id="form-buscador" styleClass="buscador-box">
+            <h3>Buscar Libros</h3>
+            <h:inputText value="#{indexBean.terminoBusqueda}" p:placeholder="Nombre Libro" style="width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 4px; box-sizing: border-box;" />
+            <h:commandButton value="Buscar" action="#{indexBean.buscar}" style="width: 100%; padding: 10px; background-color: #2563eb; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; margin-top: 10px;">
+                <f:ajax execute="@form" render=":panel-resultados" />
+            </h:commandButton>
+        </h:form>
+        <div class="redes-sociales">
+            <h3>Nuestras Redes</h3>
+            <div class="iconos-redes">
+                <a href="#" class="btn-red facebook">📘 Facebook</a>
+                <a href="#" class="btn-red instagram">📸 Instagram</a>
+                <a href="#" class="btn-red youtube">▶️ YouTube</a>
+            </div>
+        </div>
+        
+        <div class="carrusel-container">
+            <button class="btn-carr" id="btn-anterior">&lt;</button>
+
+            <div class="ventana">
+                <div class="libros-carrusel">
+
+                    <article class="card-carrusel">
+                        <h:graphicImage library="images" name="berserk-portada.webp" alt="portada berserk" styleClass="portada-libro-carrusel"/>
+                        <h3>Cien Años de Soledad</h3>
+                        <h:link outcome="descripcion-libros" value="Ver Libro" styleClass="btn-lib" />
+                    </article>
+
+                    <article class="card-carrusel">
+                        <h:graphicImage library="images" name="cienAños-portada.webp" alt="portada cien años " styleClass="portada-libro-carrusel"/>
+                        <h3>Cien Años de Soledad</h3>
+                        <h:link outcome="descripcion-libros" value="Ver Libro" styleClass="btn-lib" />
+                    </article>
+
+                    <article class="card-carrusel">
+                        <h:graphicImage library="images" name="meridianoDeSangre-portada.webp" alt="portada meridiano de sangre" styleClass="portada-libro-carrusel"/>
+                        <h3>Cien Años de Soledad</h3>
+                        <h:link outcome="descripcion-libros" value="Ver Libro" styleClass="btn-lib" />
+                    </article>
+
+                    <article class="card-carrusel">
+                        <h:graphicImage library="images" name="joyanes-portada.webp" alt="portada joyanes" styleClass="portada-libro-carrusel"/>
+                        <h3>Cien Años de Soledad</h3>
+                        <h:link outcome="descripcion-libros" value="Ver Libro" styleClass="btn-lib" />
+                    </article>
+
+                </div>
+            </div>
+            <button class="btn-carr" id="btn-siguiente">&gt;</button>
+        </div>
+
+    </ui:define>
+
+</ui:composition>
